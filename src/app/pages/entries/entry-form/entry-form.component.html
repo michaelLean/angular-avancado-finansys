@@ -117,7 +117,8 @@
     </ul>
   </div>
 
-  <button [disabled]='submitingForm' type="submit"
+  <button [disabled]='submitingForm || entryform.invalid' type="submit"
     class="btn btn-primary btn-lg float-right mt-3">Salvar</button>
 
 </form>
+<pre> {{entryform.invalid}}</pre>
