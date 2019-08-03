@@ -17,8 +17,8 @@ export class InMemoryDatabase implements InMemoryDbService {
             {
                 id: 1,
                 name: 'Oleo',
-                categoryId: categories[2].id,
-                category: categories[2],
+                categoryId: categories[1].id,
+                category: categories[1],
                 paid: true,
                 date: '14/10/2018',
                 amount: '70,80',
