@@ -99,8 +99,8 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
     } else {
       this.currentAction = 'edit';
     }
-
   }
+
   private buildEntryForm() {
     this.entryform = this.formBuilder.group({
       id: [null],
@@ -114,6 +114,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       category: [null, [Validators.required]]
     });
   }
+
   private loadEntry() {
     if (this.currentAction === 'edit') {
       this.route.paramMap.pipe(
