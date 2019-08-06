@@ -139,7 +139,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
   }
 
   private createEntry() {
-    const entry: Entry = Object.assign(new Entry(), this.entryform.value);
+    const entry: Entry = Entry.fromJson(this.entryform.value);
     this.entryService.create(entry)
       .subscribe(
         (entryNew) => this.actionsForSucess(entryNew),
@@ -147,7 +147,7 @@ export class EntryFormComponent implements OnInit, AfterContentChecked {
       );
   }
   private updateEntry() {
-    const entry: Entry = Object.assign(new Entry(), this.entryform.value);
+    const entry: Entry = Entry.fromJson(this.entryform.value);
     this.entryService.update(entry)
       .subscribe(
         (entryNew) => this.actionsForSucess(entryNew),

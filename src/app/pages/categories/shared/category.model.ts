@@ -5,6 +5,10 @@ export class Category extends BaseResourceModel {
         public id?: number,
         public name?: string,
         public description?: string) {
-            super();
-        }
+        super();
+    }
+
+    static fromJson(jsonData: any): Category {
+        return Object.assign(new Category(), jsonData);
+    }
 }
