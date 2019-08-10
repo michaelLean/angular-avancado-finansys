@@ -21,7 +21,7 @@ export class InMemoryDatabase implements InMemoryDbService {
                 category: categories[1],
                 paid: true,
                 date: '14/10/2018',
-                amount: '70,80',
+                amount: 'R$ 70,80',
                 type: 'expense'
             } as Entry,
         ];

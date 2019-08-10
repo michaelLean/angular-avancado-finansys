@@ -7,6 +7,7 @@ import { EntryService } from '../../entries/shared/entry.service';
 import { Entry } from '../../entries/shared/entry.model';
 
 import * as currencyFormatter from 'currency-formatter';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-reports',
@@ -20,7 +21,7 @@ export class ReportsComponent implements OnInit {
   balance: any = 0;
 
   expenseChartData: any;
-  revenueChartDate: any;
+  revenueChartData: any;
 
   chartOptions = {
     scales: {
@@ -66,10 +67,54 @@ export class ReportsComponent implements OnInit {
   }
 
   private calculateBalance() {
+    let expenseTotal = 0;
+    let revenueTotal = 0;
 
+    this.entries.forEach(entry => {
+      if (entry.type === 'revenue') {
+        revenueTotal += currencyFormatter.unformat(entry.amount, { code: 'BRL' });
+      } else {
+        expenseTotal += currencyFormatter.unformat(entry.amount, { code: 'BRL' });
+      }
+    });
+
+    this.expenseTotal = currencyFormatter.format(expenseTotal, { code: 'BRL' });
+    this.revenueTotal = currencyFormatter.format(revenueTotal, { code: 'BRL' });
+    this.balance = currencyFormatter.format(revenueTotal - expenseTotal, { code: 'BRL' });
   }
 
   private setChartData() {
+    this.revenueChartData = this.getChartData('revenue', 'Gráfico de Receitas', '#9CCC65');
+    this.expenseChartData = this.getChartData('expense', 'Gráfico de Despesas', '#e03131');
+  }
 
+  private getChartData(entryType: string, title: string, color: string ) {
+    const chartData = [];
+    this.categories.forEach(category => {
+      // tslint:disable-next-line: no-unused-expression
+      const filteredEntries = this.entries.filter(
+        entry => (entry.categoryId === category.id) && (entry.type === entryType)
+      );
+
+      if (filteredEntries.length > 0) {
+        const totalAmount = filteredEntries.reduce(
+          (total, entry) => total + currencyFormatter.unformat(entry.amount, { code: 'BRL' }), 0
+        );
+
+        chartData.push({
+          categoryName: category.name,
+          totalAmount
+        });
+      }
+    });
+
+    return {
+      labels: chartData.map(item => item.categoryName),
+      datasets: [{
+        label: title,
+        backgroundColor: color,
+        data: chartData.map(item => item.totalAmount)
+      }]
+    };
   }
 }
